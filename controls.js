@@ -1,20 +1,21 @@
 function keydown(e) {
+    console.log(e)
     e = e || window.event;
-    if (e.keyCode == '38') {
+    if (e.keyCode == '38' || e.key == 'w') {
         // up arrow
-        cameraPos[1] -= 1;
+        cameraPos[1] += 3;
     }
-    else if (e.keyCode == '40') {
+    else if (e.keyCode == '40' || e.key == 's') {
         // down arrow
-        cameraPos[1] += 1;
+        cameraPos[1] -= 3;
     }
-    else if (e.keyCode == '37') {
+    else if (e.keyCode == '37' || e.key == 'a') {
         // left arrow
-        cameraPos[0] += 1;
+        cameraPos[0] -= 3;
     }
-    else if (e.keyCode == '39') {
+    else if (e.keyCode == '39' || e.key == 'd') {
         // right arrow
-        cameraPos[0] -= 1;
+        cameraPos[0] += 3;
     }
 }
 
@@ -124,8 +125,6 @@ window.onkeydown = keydown;
 window.onmousedown = mousedown;
 window.onmouseup = mouseup;
 window.onmousemove = mousemove;
-window.onscroll = mousewheel
-window.KeyboardEvent = keydown;
-console.log(window)
-window.addEventListener("DOMMouseScroll", mousewheel)
-window.addEventListener("mousewheel", mousewheel)
+window.addEventListener("KeyboardEvent", keydown);
+window.addEventListener("DOMMouseScroll", mousewheel);
+window.addEventListener("mousewheel", mousewheel);

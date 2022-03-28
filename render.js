@@ -2,9 +2,9 @@ var cameraPos = [0, 0];
 var zoom = 1;
 var lines = [];
 var selectedObject = null;
-var brainView   = null;
-var fpsView     = null;
-var upsView     = null;
+var brainView = null;
+var fpsView = null;
+var upsView = null;
 var rendering = true;
 
 var objectList = new Object();
@@ -20,9 +20,9 @@ function InitGraphics() {
     gl.cullFace(gl.FRONT);
     gl.clearDepth(1.0);
     gl.depthFunc(gl.LEQUAL);
-    brainView     = document.getElementById("brain");
-    fpsView       = document.getElementById("fps");
-    upsView       = document.getElementById("ups");
+    brainView = document.getElementById("brain");
+    fpsView = document.getElementById("fps");
+    upsView = document.getElementById("ups");
     setInterval(render, 1000 / FramesPerSecond);
 
     document.getElementById("speedMult").innerHTML = "speed: " + speedup.toString();
@@ -35,7 +35,7 @@ var fpsTime = new Date().getTime();
 var avgFps = 0;
 var avgUps = 0;
 
-function loadAttribBuffer(buffer, location, components, data = null, type = gl.FLOAT, normalize = gl.FALSE, stride=0, offset=0) {
+function loadAttribBuffer(buffer, location, components, data = null, type = gl.FLOAT, normalize = gl.FALSE, stride = 0, offset = 0) {
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     if (data != null)
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
@@ -67,9 +67,9 @@ function render() {
     gl.enable(gl.DEPTH_TEST);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    var left = -gl.canvas.clientWidth/2/zoom;
+    var left = -gl.canvas.clientWidth / 2 / zoom;
     var right = -left;
-    var top = gl.canvas.clientHeight/2/zoom;
+    var top = gl.canvas.clientHeight / 2 / zoom;
     var bottom = -top;
     mat4.ortho(projectionMatrix, left, right, bottom, top, 0, 100)
 
@@ -96,15 +96,15 @@ function render() {
         loadAttribBuffer(object.buffer, programInfo.attribLocations.objectVertices, object.numComponents, null, object.type, object.normalize, object.stride, object.offset);
 
         loadAttribBuffer(positionBuffer, programInfo.attribLocations.positions, 2, data.positions);
-        loadAttribBuffer(scaleBuffer,    programInfo.attribLocations.scales,    1, data.scales);
-        loadAttribBuffer(colorBuffer,    programInfo.attribLocations.colors,    3, data.colors);
+        loadAttribBuffer(scaleBuffer, programInfo.attribLocations.scales, 1, data.scales);
+        loadAttribBuffer(colorBuffer, programInfo.attribLocations.colors, 3, data.colors);
         loadAttribBuffer(rotationBuffer, programInfo.attribLocations.rotations, 1, data.rotations);
 
 
         ext.drawArraysInstancedANGLE(gl.TRIANGLES,
-                                     object.offset,
-                                     object.vertexCount,
-                                     data.positions.length/2);
+            object.offset,
+            object.vertexCount,
+            data.positions.length / 2);
     }
 
     gl.disable(gl.DEPTH_TEST);
@@ -120,17 +120,17 @@ function render() {
         gl.uniformMatrix4fv(
             lineProgramInfo.uniformLocations.modelViewMatrix,
             false,
-            [1,0,0,0,
-             0,1,0,0,
-             0,0,1,0,
-             -cameraPos[0],-cameraPos[1],-100,1]
+            [1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                -cameraPos[0], -cameraPos[1], -100, 1]
         );
 
         gl.uniform3fv(
             lineProgramInfo.uniformLocations.color,
-            [1,0,1]);
+            [1, 0, 1]);
 
-        gl.drawArrays(gl.LINES, 0, lines.length/2);
+        gl.drawArrays(gl.LINES, 0, lines.length / 2);
     }
 
     if (selectedObject != null && selectedObject instanceof Organism) {
@@ -147,13 +147,13 @@ function updateBoard(instances) {
     var innerHtml = ""
     for (var i = 0; i < instances.length; ++i) {
         var data = instances[i];
-        innerHtml += "<p onclick=\"moveToOrganism("+i.toString()+");\">"
-            +"<span>#"+(i+1).toString()+"<span>"
-            +"<field>members:" +data.familyMembers[0].toString()+"</field>"
-            +"<field>time:"    +Math.round(data.duration).toString()+"s</field>"
-            +"<field>energy:"  +Math.round(data.__energy).toString()+"["
-            +                   Math.round(data.energyGained).toString()+"]</field>"
-            +"</p>"
+        innerHtml += "<p onclick=\"moveToOrganism(" + i.toString() + ");\">"
+            + "<span>#" + (i + 1).toString() + "<span>"
+            + "<field>members:" + data.familyMembers[0].toString() + "</field>"
+            + "<field>time:" + Math.round(data.duration).toString() + "s</field>"
+            + "<field>energy:" + Math.round(data.__energy).toString() + "["
+            + Math.round(data.energyGained).toString() + "]</field>"
+            + "</p>"
     }
     document.getElementById("board").innerHTML = innerHtml;
 }
@@ -163,7 +163,7 @@ function moveToOrganism(index) {
     var x = selectedObject.__position[0];
     var y = selectedObject.__position[1];
     worker.postMessage(["selectOrganism", selectedObject.__id]);
-    cameraPos = [x,y];
+    cameraPos = [x, y];
 }
 
 
@@ -180,7 +180,7 @@ function renderSelection() {
         for (var j = 0; j < intermediates[i].length; ++j) {
             if (intermediates[i][j][0] >= 0)
                 content += "+"
-                content += intermediates[i][j][0].toFixed(2).toString();
+            content += intermediates[i][j][0].toFixed(2).toString();
         }
     }
     brainView.innerHTML = content;
