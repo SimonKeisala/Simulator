@@ -1,0 +1,189 @@
+html {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: black;
+    overflow: hidden;
+}
+
+menu {
+    position: absolute;
+    top: 0px;
+    width: auto;
+}
+
+menu div {
+    background-color: white;
+    padding: 3px;
+    display: block;
+    width: calc(100% - 10px);
+    max-width: 200px;
+    margin-bottom: 5px;
+}
+menu span {
+    background-color: white;
+    width: auto;
+    height: 20px;
+    display: block;
+    border-radius: 10px;
+    padding-top: 3px;
+    padding-bottom: 0px;
+    padding-left: 5px;
+    padding-left: 5px;
+}
+
+board {
+    background-color: #ddd;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 300px;
+    height: 300px;
+    margin: 5px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+board p {
+    margin: 1px;
+    border: 2px solid gray;
+    border-radius: 3px;
+}
+
+board p span {
+    font-weight: bold;
+}
+
+board p field {
+    font-weight:normal;
+    margin-left: 10px;
+}
+
+board p:hover {
+    background-color: #aaa;
+    cursor: pointer;
+    border-top: 3px solid gray;
+    border-left: 3px solid gray;
+    border-bottom: 1px solid gray;
+    border-right: 1px solid gray;
+}
+
+@media only screen and (max-width: 450px) and (min-width: 400px) {
+    board {
+        width: 200px;
+        height: 100px;
+        font-size: 10px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    menu {
+        width: calc(100% - 220px);
+        top: 05px;
+        left: 10px;
+        right: auto;
+        padding: 0px;
+        margin: 0px;
+    }
+    input {
+        width: 100%;
+    }
+    div button {
+        width: 35px;
+        height: 30px;
+        display: inline;
+        padding: 0px;
+        margin-bottom: 5px;
+    }
+    button {
+        width: 70px;
+        height: 60px;
+        display: inline;
+        padding: 0px;
+        margin-bottom: 5px;
+    }
+}
+
+@media only screen and (max-width: 350px){
+    menu div button,label{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 400px){
+    board {
+        width: calc(100% - 10px);
+        height: 100px;
+        font-size: 10px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    menu {
+        background-color: white;
+        width: calc(100% - 10px);
+        top: 110px;
+        left: 0px;
+        right: 0px;
+        padding: 5px;
+        margin: 0px;
+    }
+    menu div {
+        display: inline;
+        width: 85px;
+        height: 5px;
+    }
+    div button {
+        width: 30px;
+        height: 30px;
+        display: inline;
+        padding: 0px;
+    }
+    button {
+        width: 50px;
+        height: 50px;
+        display: inline;
+        padding: 0px;
+        margin-bottom: 5px;
+    }
+    menu span {
+        display: block;
+    }
+}
+
+brain {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    background-color: #aaa;
+    max-width: 650px;
+    width: 100%;
+    height: 100px;
+    display: none;
+    font-family: monospace;
+}
+
+.visible {
+    display: block;
+}
+
+version {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+    background-color: white;
+    border-radius: 5px;
+    width: auto;
+    height: 20px;
+    overflow-y: visible;
+}

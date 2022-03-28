@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/4.1.2/math.min.js"></script>
+    <script type="text/javascript" src="communicator.js"></script>
+    <script type="text/javascript" src="controls.js"></script>
+    <script type="text/javascript" src="render.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="shaderLoader.js"></script>
+    <script type="text/javascript" src="vertexShader.cpp"></script>
+    <script type="text/javascript" src="fragmentShader.cpp"></script>
+    <script type="text/javascript" src="GraphicalObject.js"></script>
+
+    <script type="text/javascript" src="worker/middleware/gl-matrix.js"></script>
+    <script type="text/javascript" src="worker/quadtree.js"></script>
+    <script type="text/javascript" src="worker/main.js"></script>
+    <script type="text/javascript" src="worker/brain.js"></script>
+    <script type="text/javascript" src="worker/GameInstance.js"></script>
+
+    <script type="text/javascript" src="logic.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+    <canvas id="myCanvas"></canvas>
+    <menu>
+        <button onclick="toggleRays();">Toggle Rays</button>
+        <button onclick="toggleRender();">Toggle Render</button>
+        <div>
+            <button onclick="changeSpeed(1);">+</button>
+            <button onclick="changeSpeed(-1);">-</button>
+            <label id="speedMult">speed: -</label>
+        </div>
+        <div>
+            <button onclick="changeMinOrganisms(5);">+5</button>
+            <button onclick="changeMinOrganisms(-5);">-5</button>
+            <label id="nrOfOrganisms">min organisms: -</label>
+        </div>
+
+        <span id="fps"></span>
+        <span id="ups"></span>
+    </menu>
+    <board id="board">
+        <p> <span>uid</span> test</p>
+        <p> test </p>
+    </board>
+    <brain id="brain" class="hidden">
+
+    </brain>
+
+    <version>version 0.3.4</version>
+</body>
+
+</html>
