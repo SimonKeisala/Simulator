@@ -1,42 +1,46 @@
-var vertexShaderSource =
-    `
-attribute vec4 vertices;
-
-attribute vec2 positions;
-attribute float scales;
-attribute float rotations;
-attribute vec3 colors;
+var vertexShaderSource = `
+attribute vec3 modelVertex;
+attribute vec2 particlePosition;
+attribute float particleScale;
+attribute float particleRotation;
+attribute vec3 particleColor;
 
 uniform mat4 projectionMatrix;
-uniform vec2 cameraPosition;
+uniform mat4 modelViewMatrix;
+
 varying vec3 color;
 void main()
 {
-    mat4 viewMatrix = mat4(1.0);
-    viewMatrix[0][0] = scales*cos(rotations);
-    viewMatrix[0][1] = scales*(-sin(rotations));
-    viewMatrix[1][0] = scales*sin(rotations);
-    viewMatrix[1][1] = scales*cos(rotations);
+    mat3 viewMatrix = mat3(1.0);
+    float cosrot = cos(particleRotation);
+    float sinrot = sin(particleRotation);
+    viewMatrix[0][0] = cosrot;
+    viewMatrix[0][1] = -sinrot;
+    viewMatrix[1][0] = sinrot;
+    viewMatrix[1][1] = cosrot;
 
+    vec3 worldCoords = viewMatrix * modelVertex * particleScale + vec3(particlePosition, 0.0);
+    vec3 cameraCoords = worldCoords + modelViewMatrix[3].xyz;
 
-    color = colors;
-    gl_Position = projectionMatrix
-        * (
-            viewMatrix * vertices
-            + vec4(positions-cameraPosition, 0.0, 0.0)
-        );
+    vec3 viewCoords = mat3(modelViewMatrix) * cameraCoords;
+
+    gl_Position = projectionMatrix * vec4(viewCoords, 1.0);
+    color = particleColor;
 }
 `
 
 var lineVertexShaderSource =
     `
-attribute vec4 linePoints;
+attribute vec3 linePoint;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 void main()
 {
-    gl_Position = projectionMatrix * modelViewMatrix * linePoints;
+    vec3 cameraCoords = linePoint + modelViewMatrix[3].xyz;
+
+    vec3 viewCoords = mat3(modelViewMatrix) * cameraCoords;
+    gl_Position = projectionMatrix * vec4(viewCoords, 1.0);
 }
 `
 

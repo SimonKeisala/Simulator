@@ -18,7 +18,7 @@ function rect_contains(bbox1, bbox2) {
 class Quadtree {
     constructor(bbox, capacity = 10, max_depth = 20) {
         this.bbox = bbox;
-        this.center = [(bbox[2] - bbox[0]) / 2, (bbox[3] - bbox[1]) / 2];
+        this.center = [(bbox[2] + bbox[0]) / 2, (bbox[3] + bbox[1]) / 2];
         this.capacity = capacity;
         this.max_depth = max_depth;
         this.depth = 0;
@@ -30,16 +30,19 @@ class Quadtree {
 
     insert(item, bbox) {
         if (!rect_overlap(this.bbox, bbox)) return;
-        this._insert(item, bbox)
+        this._insert(item, bbox);
     }
     remove(item, bbox) {
         if (!rect_overlap(this.bbox, bbox)) return;
-        this._remove(item, bbox)
+        this._remove(item, bbox);
 
     }
     *intersect(bbox) {
         if (rect_overlap(this.bbox, bbox))
             yield* this._intersect(bbox, new Set());
+    }
+    *all() {
+        yield* this._iter(new Set());
     }
 
     *_iter(uniq) {
@@ -132,38 +135,42 @@ class Quadtree {
         }
         else {
             var data_index = this.data.indexOf(item);
-            this.data.splice(data_index, 1);
-            this.points.splice(data_index, 1);
-            this.empty = (this.points.length === 0);
+            if (data_index != -1) {
+                this.data.splice(data_index, 1);
+                this.points.splice(data_index, 1);
+                this.empty = (this.points.length === 0);
+            }
         }
     }
     _remove_from_children(item, bbox) {
         if (bbox[0] <= this.center[0] && this.center[0] <= bbox[2] &&
             bbox[1] <= this.center[1] && this.center[1] <= bbox[3]) {
             var data_index = this.data.indexOf(item);
-            this.data.splice(data_index, 1);
-            this.points.splice(data_index, 1);
+            if (data_index != -1) {
+                this.data.splice(data_index, 1);
+                this.points.splice(data_index, 1);
+            }
         }
         else {
             if (bbox[0] <= this.center[0]) {
                 if (bbox[1] <= this.center[1])
                     this.children[0]._remove(item, bbox);
-                if (bbox[3] <= this.center[1])
+                if (bbox[3] >= this.center[1])
                     this.children[1]._remove(item, bbox);
             }
             if (bbox[2] >= this.center[0]) {
                 if (bbox[1] <= this.center[1])
                     this.children[2]._remove(item, bbox);
-                if (bbox[3] <= this.center[1])
+                if (bbox[3] >= this.center[1])
                     this.children[3]._remove(item, bbox);
             }
             for (let child of this.children) {
                 if (!child.empty) {
                     return;
                 }
-                this.children = null;
-                this.empty = (this.points.length === 0);
             }
+            this.children = null;
+            this.empty = (this.points.length === 0);
         }
     }
     _create_children() {

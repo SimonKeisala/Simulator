@@ -32,14 +32,14 @@ function LoadShader(gl, frag, vert) {
     }
 
     let attributeLocations = {}
-    for (let line of vert.split('\n')) {
+    for (let line of vert.split('\n').concat(frag.split('\n'))) {
         let match = line.match("attribute.*?([^ ]*);")
         if (match != null) {
             attributeLocations[match[1]] = gl.getAttribLocation(program, match[1])
         }
     }
     let uniformLocations = {}
-    for (let line of vert.split('\n')) {
+    for (let line of vert.split('\n').concat(frag.split('\n'))) {
         let match = line.match("uniform.*?([^ ]*);")
         if (match != null) {
             uniformLocations[match[1]] = gl.getUniformLocation(program, match[1])

@@ -6,11 +6,10 @@ function onresize(a, b) {
     gl.viewport(0, 0, canvas.width, canvas.height);
 }
 
-function InitWebGL() {
-    // fetch openGL context and canvas element
-    canvas = document.getElementById("myCanvas");
+function InitWebGL(_canvas) {
+    canvas = _canvas
     if (canvas === null) {
-        alert("Unable to fetch canvas!");
+        alert("No canvas provided!");
         throw "Failed to fetch canvas!";
     }
     gl = canvas.getContext("webgl");
